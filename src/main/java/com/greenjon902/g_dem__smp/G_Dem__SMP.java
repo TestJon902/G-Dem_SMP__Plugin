@@ -1,21 +1,59 @@
 package com.greenjon902.g_dem__smp;
 
+import com.greenjon902.g_dem__smp.sit.Sit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Logger;
+
 public final class G_Dem__SMP extends JavaPlugin {
+    private static final PluginComponent[] components =
+            {
+                    new Sit()
+    };
+
 
     @Override
     public void onEnable() {
-        System.out.println("Starting the G-Dem SMP plugin...");
-        // Plugin startup logic
-        System.out.println("Started the G-Dem SMP plugin...");
+        Logger logger = getLogger();
+
+        logger.info("Starting the G-Dem SMP plugin...");
+
+        int component_index;
+        PluginComponent component;
+
+        for (component_index=0; component_index < components.length; component_index++) {
+            component = components[component_index];
+            logger.info("Setting up " + component.getClass().toString());
+            component.setup(this);
+        }
+
+        for (component_index=0; component_index < components.length; component_index++) {
+            component = components[component_index];
+            logger.info("Enabling " + component.getClass().toString());
+            component.enable(this);
+        }
+
+        logger.info("Started the G-Dem SMP plugin...");
 
     }
 
     @Override
     public void onDisable() {
-        System.out.println("Ending the G-Dem SMP plugin...");
-        // Plugin shutdown logic
-        System.out.println("Ended the G-Dem SMP plugin...");
+        Logger logger = getLogger();
+
+        logger.info("Ending the G-Dem SMP plugin...");
+
+        int component_index;
+        PluginComponent component;
+        for (component_index=0; component_index < components.length; component_index++) {
+            component = components[component_index];
+            component.end(this);
+        }
+
+        logger.info("Ended the G-Dem SMP plugin...");
     }
 }
