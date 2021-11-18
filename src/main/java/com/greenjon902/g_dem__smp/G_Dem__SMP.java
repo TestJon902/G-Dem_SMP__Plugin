@@ -1,4 +1,4 @@
-package mc.greenjon902.g_dem__smp;
+package com.greenjon902.g_dem__smp;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
